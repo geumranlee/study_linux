@@ -10,29 +10,28 @@ main()
 ->->->-> dev_list = ibv_get_device_list(&numb_dev);
 ->->->->-> if (!initialized) ibverbs_init()
 ->->->->-> num_devices = ibverbs_get_device_list(&device_list);
-		ret = find_sysfs_devs_nl(&sysfs_list);
-		list_for_each_safe(device_list, vdev, tmp, entry) {
-			list_for_each(&sysfs_list, sysfs_dev, entry) {
-				if (same_sysfs_dev(vdev->sysfs, sysfs_dev)) {
-					old_sysfs = sysfs_dev;
-					break;
-			if (old_sysfs)
-				list_del(&old_sysfs->entry);
-				free(old_sysfs);
-				num_devices++;
-			else
-				list_del(&vdev->entry);
-				ibverbs_device_put(&vdev->device);
-		try_all_drivers(&sysfs_list, device_list, &num_devices);
-		if (list_empty(&sysfs_list) || drivers_loaded) goto out;
-		load_drivers();
-		drivers_loaded = 1;
-		try_all_drivers(&sysfs_list, device_list, &num_devices);
+->->->->->-> ret = find_sysfs_devs_nl(&sysfs_list);
+->->->->->-> list_for_each_safe(device_list, vdev, tmp, entry) {
+->->->->->->  list_for_each(&sysfs_list, sysfs_dev, entry) {
+->->->->->->   if (same_sysfs_dev(vdev->sysfs, sysfs_dev)) old_sysfs = sysfs_dev; break;
+->->->->->->   if (old_sysfs)
+->->->->->->    list_del(&old_sysfs->entry);
+->->->->->->    free(old_sysfs);
+->->->->->->    num_devices++;
+->->->->->->   else
+->->->->->-> 	list_del(&vdev->entry);
+->->->->->-> 	ibverbs_device_put(&vdev->device);
+->->->->->-> try_all_drivers(&sysfs_list, device_list, &num_devices);
+->->->->->-> if (list_empty(&sysfs_list) || drivers_loaded) goto out;
+->->->->->-> load_drivers();
+->->->->->-> drivers_loaded = 1;
+->->->->->-> try_all_drivers(&sysfs_list, device_list, &num_devices);
 ->->->->-> l = calloc(num_devices + 1, sizeof (struct ibv_device *));
 ->->->->-> list_for_each(&device_list, device, entry) {
-		l[i] = &device->device;
-		ibverbs_device_hold(l[i]);
-		i++;
+->->->->->  l[i] = &device->device;
+->->->->->  ibverbs_device_hold(l[i]);
+->->->->->  i++;
+->->->->->  }
 ->->->->-> if (num) *num = num_devices;
 ->->->-> setting cma_dev_{array, cnt}
 	cma_dev_array = calloc(dev_cnt, sizeof(*cma_dev_array));

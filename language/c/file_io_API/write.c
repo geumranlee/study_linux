@@ -5,12 +5,23 @@
 
 int main()
 {
-	char *temp = "wewakecorp";
+	char *temp = "wewakecorp\n";
+	char temp2[4096] = {0,};
+	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
    	int fd;
+	int i=5;
 
-   	if (0 < (fd = open("./test.txt", O_WRONLY | O_CREAT | O_EXCL, 0644)))
+	//printf("hello world\n");
+   	fd = open("./test.txt", O_CREAT | O_WRONLY, mode );
+   	if (0 < fd)
    	{
-      		write(fd, temp, strlen(temp));
+		while (1) {
+		//while (i--) {
+			sleep(1);
+      			write(fd, temp, strlen(temp));
+			//printf("%s", temp);
+			//fsync(stdout);
+		}
       		close(fd);
    	}
    	else

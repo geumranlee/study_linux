@@ -23,6 +23,9 @@ int LoadAPNInfo(char* mcc, char* mnc)
 	printf("======================================\n");
 	printf("carrier,apn,servicegroup,auto,protocol\n");
 	printf("======================================\n");
+
+	json_t *servicegroups, *tmp3, *tmp4, *tmp5;
+	int j, size2;
 	for(i=0; i < size; i++) {
 		tmp = json_array_get(grandchild, i);
 		carrier = json_string_value(json_object_get(tmp, "carrier"));
@@ -30,8 +33,30 @@ int LoadAPNInfo(char* mcc, char* mnc)
 		auto_act = json_string_value(json_object_get(tmp, "auto"));
 		protocol = json_string_value(json_object_get(tmp, "protocol"));
 
+		tmp3 = json_object_get(tmp, "servicegroup");
+		size_t index;
+		json_t *value;
+
+		json_array_foreach(tmp3, index, value) {
+			tmp4 = json_string_value(value);
+			printf("%d,%s\n", index, tmp4);
+		}
+/*
+		for(j=0; j < size2; j++) {
+			printf("%d,%s\n", j, json_array_get(tmp3, j));
+		}
+		for(j=0; j < size2; j++) {
+			json_array_foreach(tmp3, index, value) {
+				printf("%d,%s\n", index, json_string_value(value));
+			}
+		}
+*/
 		printf("%s,%s,%s,%s\n", carrier, apn, auto_act, protocol);
+		printf("%d\n", size2);
 	}
+
+
+	tmp3 = json_string_value(json_object_get(tmp, "servicegroups"));
 }
 
 int main(int argc, char** argv)
@@ -72,6 +97,7 @@ int main(int argc, char** argv)
 	printf("======================================\n");
 	printf("carrier,apn,servicegroup,auto,protocol\n");
 	printf("======================================\n");
+
 	for(i=0; i < size; i++) {
 		tmp = json_array_get(grandchild, i);
 		carrier = json_string_value(json_object_get(tmp, "carrier"));
@@ -80,6 +106,7 @@ int main(int argc, char** argv)
 		protocol = json_string_value(json_object_get(tmp, "protocol"));
 
 		printf("%s,%s,%s,%s\n", carrier, apn, auto_act, protocol);
+
 #if 0
 		//printf("type=%d, size=%d\n", json_typeof(tmp), json_object_size(tmp));
 		json_object_foreach(tmp, key, tmp2) {

@@ -22,7 +22,7 @@ mk_cscope_files()
 	op_mode="$1"
 	shift 1
 
-	if [ "$op_mode" == "new" ] ; then
+	if [ "$op_mode" == "new" ] || [ "$op_mode" == "." ] ; then
 		find $@ \( -name '*.c' \
 			-o -name '*.cpp' \
 			-o -name '*.cc' \

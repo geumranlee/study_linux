@@ -1,0 +1,88 @@
+{
+	"450": {
+		"08": [
+		{"carrier":"KOREA KT","apn":"hdmlte.ktfwing.com","servicegroup":["default","ccs","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"KOREA KT","apn":"hdmnavi.ktfwing.com","servicegroup":["fota"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"KOREA KT","apn":"hdmb2c.ktfwing.com","servicegroup":["userpaid"],"auto":"X","protocol":"IPV4V6"}
+		],
+		"05": [
+		{"carrier":"KOREA SKT","apn":"lte-internet.sktelecom.com","servicegroup":["default","ccs","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"KOREA SKT","apn":"hkmc.sktelecom.com","servicegroup":["fota"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"KOREA SKT","apn":"hkmcstreaming.sktelecom.com","servicegroup":["userpaid"],"auto":"X","protocol":"IPV4V6"}
+		],
+		"06": [
+		{"carrier":"KOREA LGU","apn":"m2m-hkmc.lguplus.co.kr","servicegroup":["default","ccs","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"KOREA LGU","apn":"m2m-ota-hkmc.lguplus.co.kr","servicegroup":["fota"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"KOREA LGU","apn":"m2m-mst-hkmc.lguplus.co.kr","servicegroup":["userpaid"],"auto":"X","protocol":"IPV4V6"}
+		]
+	},
+	"440": {
+		"20": [
+		{"carrier":"JAPAN","apn":"hmg.jp.mgx","servicegroup":["default","ccs","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"JAPAN","apn":"hmg.ota.jp.mgx","servicegroup":["fota"],"auto":"O","protocol":"IPV4V6"}
+		]
+	},
+	"310": {
+		"995": [
+		{"carrier":"USA VZW","apn":"HYUNTELE.GW5.VZWENTP","servicegroup":["default","ccs","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"USA VZW","apn":"VZWB2BInternet","servicegroup":["fota"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"USA VZW","apn":"VZWInternet","servicegroup":["wifi tethering"],"auto":"X","protocol":"IPV4V6"}
+		]
+	},
+	"311": {
+		"480": [
+		{"carrier":"USA VZW","apn":"HYUNTELE.GW5.VZWENTP","servicegroup":["default","ccs","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"USA VZW","apn":"VZWB2BInternet","servicegroup":["fota"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"USA VZW","apn":"VZWInternet","servicegroup":["wifi tethering"],"auto":"X","protocol":"IPV4V6"}
+		]
+	},
+	"302": {
+		"610": [
+		{"carrier":"CANADA BELL","apn":"hata.nad.bell.ca.ioe","servicegroup":["default","ccs","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"CANADA BELL","apn":"hota1.nad.bell.ca.ioe","servicegroup":["fota"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"CANADA BELL","apn":"hota2.nad.bell.ca.ioe","servicegroup":["oempaid"],"auto":"O","protocol":"IPV4V6"}
+		],
+		"640": [
+		{"carrier":"CANADA BELL","apn":"hata.nad.bell.ca.ioe","servicegroup":["default","ccs","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"CANADA BELL","apn":"hota1.nad.bell.ca.ioe","servicegroup":["fota"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"CANADA BELL","apn":"hota2.nad.bell.ca.ioe","servicegroup":["oempaid"],"auto":"O","protocol":"IPV4V6"}
+		],
+		"651": [
+		{"carrier":"CANADA BELL","apn":"hata.nad.bell.ca.ioe","servicegroup":["default","ccs","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"CANADA BELL","apn":"hota1.nad.bell.ca.ioe","servicegroup":["fota"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"CANADA BELL","apn":"hota2.nad.bell.ca.ioe","servicegroup":["oempaid"],"auto":"O","protocol":"IPV4V6"}
+		],
+		"690": [
+		{"carrier":"CANADA BELL","apn":"hata.nad.bell.ca.ioe","servicegroup":["default","ccs","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"CANADA BELL","apn":"hota1.nad.bell.ca.ioe","servicegroup":["fota"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"CANADA BELL","apn":"hota2.nad.bell.ca.ioe","servicegroup":["oempaid"],"auto":"O","protocol":"IPV4V6"}
+		],
+		"880": [
+		{"carrier":"CANADA BELL","apn":"hata.nad.bell.ca.ioe","servicegroup":["default","ccs","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"CANADA BELL","apn":"hota1.nad.bell.ca.ioe","servicegroup":["fota"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"CANADA BELL","apn":"hota2.nad.bell.ca.ioe","servicegroup":["oempaid"],"auto":"O","protocol":"IPV4V6"}
+		]
+	},
+	"460": {
+		"01": [
+		{"carrier":"CHINA CU","apn":"bjhmgc01.clfu.njm2mapn","servicegroup":["default","ccs","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"CHINA CU","apn":"bjhmgc03.clfu.njm2mapn","servicegroup":["fota"],"auto":"O","protocol":"IPV4V6"}
+		]
+	},
+	"204": {
+		"04": [
+		{"carrier":"Europe Vodafone","apn":"hmg.eu","servicegroup":["default","ccs","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"Europe Vodafone","apn":"hmg.ota.eu","servicegroup":["fota"],"auto":"O","protocol":"IPV4V6"}
+		],
+		"04": [
+		{"carrier":"Russia Vodafone","apn":"hmg.ru","servicegroup":["default","ccs","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"Russia Vodafone","apn":"hmg.ota.ru","servicegroup":["fota"],"auto":"O","protocol":"IPV4V6"}
+		]
+	},
+	"404": {
+		"84": [
+		{"carrier":"India Vodafone","apn":"M2m.hmil.co.in","servicegroup":["default","ccs","fota","vcrm","canids"],"auto":"O","protocol":"IPV4V6"},
+		{"carrier":"India Vodafone","apn":"tbd","servicegroup":["userpaid"],"auto":"","protocol":"IPV4V6"}
+		]
+	}
+}

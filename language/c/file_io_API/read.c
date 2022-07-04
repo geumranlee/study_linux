@@ -10,7 +10,7 @@ int main()
    char   buff[BUFF_SIZE];
    int    fd;
 
-   if ( 0 < (fd = open( "./test.txt", O_RDONLY)))
+   if ( 0 < (fd = open( "./test.txt", O_RDONLY|O_CREAT)))
    {
       read(fd, buff, BUFF_SIZE);
       puts(buff);
