@@ -806,6 +806,8 @@ rpci_ep_probe(epf)
 ->-> mask = (dma_addr_t)mask;
 ->-> dev->coherent_dma_mask = mask;
 
+rpci_ep_cmd_handler
+
 static struct rdma_link_ops rpci_ep_link_ops = {
 	.type = "rpci-ep",
 	.newlink = rpci_ep_newlink,
@@ -1067,9 +1069,92 @@ int rpci_ep_requester(void *arg)
 >>>>  set lheader's len, data_len, tail, mac_len, hdr_len, transport_header, network_header, mac_header, protocol, data_offset as skb's data_len, tail, mac_len, hdr_len, transport_header, network_header, mac_header, protocol, data - head
 >>>>  memcpy_toio(header, &lheader, sizeof lheader);
 >>>>  base = header_dma + RPCI_DATA_OFFSET;
->>>>  renesas_pcie_dma_to_remote_memory(base, skb->head, skb->len + lheader.data_offset);
+>>>>  src = dma_map_single(g_rdev->ib_dev.dma_device, skb->head, skb->len + lheader.data_offset, DMA_TO_DEVICE);
+>>>>  g_pci_act_ops->write(0, base, src, skb->len + lheader.data_offset, 1); //exynos_pcie_ep_write();
 >>>  else rpci_ep_cr_fill_queue_entry(header, skb);
 >>>  iowrite32(next, &cr_dbs->rq_tdbl);
+>> }
+>> if ((qp_type(qp) != IB_QPT_RC) && (pkt->mask & RPCI_END_MASK)) {
+>>  pkt->wqe->state = wqe_state_done;
+>>  rpci_ep_run_task(&qp->comp.task, 1); // rpci_ep_completer
+>>>  rpci_ep_completer
+ >>>> state = COMPST_GET_ACK;
+ >>>> while (1) {
+ >>>> 	switch (state) {
+ >>>> 	case COMPST_GET_ACK:
+ >>>> 		skb = skb_dequeue(&qp->resp_pkts);
+ >>>> 		if (skb) pkt = SKB_TO_PKT(skb);
+ >>>> 		state = COMPST_GET_WQE;
+ >>>> 		break;
+ >>>> 	case COMPST_GET_WQE:
+ >>>> 		state = get_wqe(qp, pkt, &wqe);
+ >>>> 		break;
+ >>>> 	case COMPST_CHECK_PSN:
+ >>>> 		state = check_psn(qp, pkt, wqe);
+ >>>> 		break;
+ >>>> 	case COMPST_CHECK_ACK:
+ >>>> 		state = check_ack(qp, pkt, wqe);
+ >>>> 		break;
+ >>>> 	case COMPST_READ:
+ >>>> 		state = do_read(qp, pkt, wqe);
+ >>>> 		break;
+ >>>> 	case COMPST_ATOMIC:
+ >>>> 		state = do_atomic(qp, pkt, wqe);
+ >>>> 		break;
+ >>>> 	case COMPST_WRITE_SEND:
+ >>>> 		if (wqe->state == wqe_state_pending && wqe->last_psn == pkt->psn)
+ >>>> 			state = COMPST_COMP_ACK;
+ >>>> 		else state = COMPST_UPDATE_COMP;
+ >>>> 		break;
+ >>>> 	case COMPST_COMP_ACK:
+ >>>> 		state = complete_ack(qp, pkt, wqe);
+ >>>> 		break;
+ >>>> 	case COMPST_COMP_WQE:
+ >>>> 		state = complete_wqe(qp, pkt, wqe);
+ >>>> 		break;
+ >>>> 	case COMPST_UPDATE_COMP:
+ >>>> 		if (pkt->mask & RPCI_END_MASK)
+ >>>> 			qp->comp.opcode = -1;
+ >>>> 		else
+ >>>> 			qp->comp.opcode = pkt->opcode;
+ >>>> 
+ >>>> 		if (psn_compare(pkt->psn, qp->comp.psn) >= 0)
+ >>>> 			qp->comp.psn = (pkt->psn + 1) & BTH_PSN_MASK;
+ >>>> 		if (qp->req.wait_psn) {
+ >>>> 			qp->req.wait_psn = 0;
+ >>>> 			rpci_ep_run_task(&qp->req.task, 1);
+ >>>> 		}
+ >>>> 		state = COMPST_DONE;
+ >>>> 		break;
+ >>>> 	case COMPST_DONE:
+ >>>> 		if (pkt) {
+ >>>> 			rpci_ep_drop_ref(pkt->qp);
+ >>>> 			kfree_skb(skb);
+ >>>> 			skb = NULL;
+ >>>> 		}
+ >>>> 		goto done;
+ >>>> 	case COMPST_EXIT:
+ >>>> 		if ((qp_type(qp) == IB_QPT_RC) && (qp->req.state == QP_STATE_READY) && (psn_compare(qp->req.psn, qp->comp.psn) > 0) && qp->qp_timeout_jiffies)
+ >>>> 			mod_timer(&qp->retrans_timer, jiffies + qp->qp_timeout_jiffies);
+ >>>> 		goto exit;
+ >>>> 	case COMPST_RNR_RETRY:
+ >>>> 		if (qp->comp.rnr_retry > 0) {
+ >>>> 			if (qp->comp.rnr_retry != 7)
+ >>>> 				qp->comp.rnr_retry--;
+ >>>> 			qp->req.need_retry = 1;
+ >>>> 			mod_timer(&qp->ep_rnr_nak_timer, jiffies + rnrnak_jiffies(aeth_syn(pkt)	& ~AETH_TYPE_MASK));
+ >>>> 			rpci_ep_drop_ref(pkt->qp);
+ >>>> 			kfree_skb(skb);
+ >>>> 			skb = NULL;
+ >>>> 			goto exit;
+ >>>> 		} else {
+ >>>> 			rpci_ep_counter_inc(rxe, RPCI_CNT_RNR_RETRY_EXCEEDED);
+ >>>> 			wqe->status = IB_WC_RNR_RETRY_EXC_ERR;
+ >>>> 			state = COMPST_ERROR;
+ >>>> 		}
+ >>>> 		break;
+ >>>> 	}
+ >>>> }
 >> }
 >> rpci_ep_counter_inc(rpci, RPCI_CNT_SENT_PKTS);
 > update_state(qp, wqe, &pkt, payload);
